@@ -1,24 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { Provider, Wrapper, Navbar, KeyVisual } from "./components";
+import {
+  Mercury,
+  Venus,
+  Mars,
+  Uranus,
+  Neptune,
+  Earth,
+  Jupiter,
+  Saturn,
+} from "./pages";
 
 function App() {
+  const location = useLocation();
+  const [activePlanet, setActivePlanet] = useState("/");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider>
+      <Wrapper>
+        <Navbar
+          pathName={location.pathname}
+          onHover={setActivePlanet}
+          activePlanet={activePlanet}
+        />
+        <AnimatePresence>
+          <Switch location={location} key={location.key}>
+            <Route exact path="/">
+              <KeyVisual activePlanet={activePlanet} />
+            </Route>
+            <Route exact path="/mercury">
+              <Mercury />
+            </Route>
+            <Route exact path="/neptune">
+              <Neptune />
+            </Route>
+            <Route exact path="/earth">
+              <Earth />
+            </Route>
+            <Route exact path="/mars">
+              <Mars />
+            </Route>
+            <Route exact path="/jupiter">
+              <Jupiter />
+            </Route>
+            <Route exact path="/venus">
+              <Venus />
+            </Route>
+            <Route exact path="/saturn">
+              <Saturn />
+            </Route>
+            <Route exact path="/uranus">
+              <Uranus />
+            </Route>
+          </Switch>
+        </AnimatePresence>
+      </Wrapper>
+    </Provider>
   );
 }
 
